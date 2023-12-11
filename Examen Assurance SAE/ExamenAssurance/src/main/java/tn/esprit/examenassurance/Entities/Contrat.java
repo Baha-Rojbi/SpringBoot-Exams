@@ -7,19 +7,21 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.io.Serializable;
+import java.util.Date;
+import java.util.Set;
+
 @Getter
 @Setter
 @NoArgsConstructor
 @ToString
 @Entity
-public class Assurance implements Serializable {
+public class Contrat implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idAssurance;
-    private String designation;
-    private float montant;
-    @ManyToOne
-    private Beneficiaire beneficiaire;
-    @ManyToOne
-    private Contrat contrat;
+    private int idContrat;
+    private String matricule;
+    @Temporal(TemporalType.DATE)
+    private Date dateEffet;
+    @Enumerated(EnumType.STRING)
+    private TypeContrat type;
 }
