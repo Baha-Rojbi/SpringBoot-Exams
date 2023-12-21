@@ -1,5 +1,6 @@
 package tn.esprit.examenformation.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,6 +23,7 @@ public class Formateur implements Serializable {
     private String prenom;
     private Integer tarifHoraire;
     private String email;
+    @JsonIgnore
     @OneToMany(mappedBy = "formateur")
     private Set<Formation> formations;
 

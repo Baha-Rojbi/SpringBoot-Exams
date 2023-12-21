@@ -1,5 +1,6 @@
 package tn.esprit.examenformation.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,6 +24,7 @@ public class Apprenant implements Serializable {
     private String prenom;
     private Integer telephone ;
     private String email;
+    @JsonIgnore
     @ManyToMany(mappedBy = "apprenants")
     private Set<Formation> formationSet;
 }

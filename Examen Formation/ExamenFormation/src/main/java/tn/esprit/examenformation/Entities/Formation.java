@@ -1,5 +1,6 @@
 package tn.esprit.examenformation.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,6 +32,7 @@ public class Formation implements Serializable {
     private Integer frais;
     @ManyToOne
     private Formateur formateur;
-    @ManyToMany
+    @JsonIgnore
+    @ManyToMany(fetch =FetchType.EAGER)
     private Set<Apprenant> apprenants;
 }
