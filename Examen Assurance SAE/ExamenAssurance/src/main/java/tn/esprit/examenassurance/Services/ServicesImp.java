@@ -69,7 +69,21 @@ public class ServicesImp implements IServices{
 
     @Override
     public float getMontantBf(int cinBf) {
-        return 0;
+
+        Beneficiaire beneficiaire = beneficiaireRepository.findByCin(cinBf);
+
+        float montantContrat = 0;
+        for (Assurance ass : beneficiaire.getAssurances()) {
+            if (ass.getContrat().getType() == TypeContrat.Mensuel) {
+                montantContrat += ass.getMontant() * 12;
+            } else if (ass.getContrat().getType() == TypeContrat.Semestriel) {
+                montantContrat += ass.getMontant() * 2;
+            } else {
+                montantContrat += ass.getMontant();
+            }
+        }
+
+        return montantContrat;
     }
     @Scheduled(fixedRate = 60000)
     @Transactional

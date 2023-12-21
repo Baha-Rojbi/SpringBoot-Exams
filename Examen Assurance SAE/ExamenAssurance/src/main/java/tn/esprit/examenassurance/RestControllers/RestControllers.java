@@ -34,5 +34,9 @@ public class RestControllers {
     public Set<Beneficiaire> getBeneficairesByType(@PathVariable TypeContrat typeContrat){
         return iServices.getBeneficairesByType(typeContrat);
     }
+    @GetMapping("/getMontantBf/{cinBenef}")
+    public float getMontantBf(@PathVariable("cinBenef") int cinBf){
+        return iServices.getMontantBf(cinBf);
+    }
 }
 
