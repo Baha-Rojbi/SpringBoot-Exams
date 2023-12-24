@@ -9,11 +9,11 @@ import lombok.ToString;
 
 import java.io.Serializable;
 import java.util.Set;
-@Getter
-@Setter
-@NoArgsConstructor
-@ToString
-@Entity
+        @Getter
+        @Setter
+        @NoArgsConstructor
+        @ToString
+        @Entity
 public class Boutique implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
