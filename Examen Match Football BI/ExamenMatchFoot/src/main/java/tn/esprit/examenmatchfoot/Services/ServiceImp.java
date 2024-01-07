@@ -28,6 +28,69 @@ public class ServiceImp implements IService{
     @Override
     public Joueur ajouterJoueurEtAffecterEquipe(Joueur joueur, Integer idEquipe) {
         Equipe equipe=equipeRepository.findById(idEquipe).orElse(null);
+       joueur.setEquipeJoueur(equipe);
+        return joueurRepository.save(joueur);
+    }
+
+    @Override
+    public List<Joueur> afficherJoueursParPosteEtTaille(Poste poste, float taille) {
+        return joueurRepository.findByPosteandTaille(poste, taille);
+    }
+
+    @Override
+    public MatchFootball ajouterMatchFootballEtAffecterEquipe(MatchFootball matchFootball, Integer idEquipe1, Integer idEquipe2) {
+        Equipe equipe1=equipeRepository.findById(idEquipe1).orElse(null);
+        Equipe equipe2=equipeRepository.findById(idEquipe2).orElse(null);
+        if (equipe1!=equipe2){
+            Set<Equipe> equipes=new HashSet<>();
+            equipes.add(equipe1);
+            equipes.add(equipe2);
+            matchFootball.setEquipeMatch(equipes);
+        }
+        return matchFootballRepository.save(matchFootball);
+    }
+
+    @Override
+    public List<Joueur> afficherJoueursDuMatchParDivisionEtPoste(Division division, Poste poste, Integer idMatch) {
+        return joueurRepository.afficherJoueursDuMatchParDivisionEtPoste(division,poste,idMatch);
+    }
+
+    @Override
+    public MatchFootball reporterMatch(Integer idMatch, Date dateReportee) {
+        MatchFootball matchFootball=matchFootballRepository.findById(idMatch).orElse(null);
+        if (matchFootball.getDateMatch().before(new Date())){
+            return null;
+        }
+        Set<Equipe> equipes = matchFootball.getEquipeMatch();
+        for (Equipe equipe:equipes){
+            if (joueurRepository.countByEquipeJoueurIdEquipeAndBlessureIsTrue(equipe.getIdEquipe()) >= 2){
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(matchFootball.getDateMatch());
+                calendar.add(Calendar.DAY_OF_MONTH, 7);
+                matchFootball.setDateMatch(calendar.getTime());
+                return matchFootballRepository.save(matchFootball);
+            }
+        }
+        return matchFootball;
+    }
+    @Scheduled(fixedRate = 60000)
+    public void afficherJoueursPolyvalentsDisponibles (){
+        List<Joueur> joueurs=joueurRepository.findAll();
+        for (Joueur joueur:joueurs){
+            if(!joueur.isBlessure()&&joueur.getPoste()==Poste.DEFENSEUR&&joueur.getNbButsEnCarrire()>=20){
+                log.info("le joueur "+joueur.getNom()+" est polyvalant");
+            }
+        }
+    }
+
+   /* @Override
+    public Equipe ajouterEquipe(Equipe equipe) {
+        return equipeRepository.save(equipe);
+    }
+
+    @Override
+    public Joueur ajouterJoueurEtAffecterEquipe(Joueur joueur, Integer idEquipe) {
+        Equipe equipe=equipeRepository.findById(idEquipe).orElse(null);
         joueur.setEquipeJoueur(equipe);
         return joueurRepository.save(joueur);
     }
@@ -78,11 +141,11 @@ public class ServiceImp implements IService{
     @Override
     public MatchFootball reporterMatch(Integer idMatch, Date dateReportee) {
         MatchFootball match = matchFootballRepository.findById(idMatch).orElse(null);
-/*        // Check if the match has already been played
+*//*        // Check if the match has already been played
         if (match.getDateMatch().before(new Date())) {
             // Handle the case where the match has already been played
             return null; // or throw a custom exception
-        }*/
+        }*//*
         // Check for each team if there are at least two injured players
         Set<Equipe> teams = match.getEquipeMatch();
 
@@ -111,5 +174,5 @@ public class ServiceImp implements IService{
                 log.info("Le joueur "+ joueur.getNom() + " est polyvalent");
             }
         }
-    }
+    }*/
 }
