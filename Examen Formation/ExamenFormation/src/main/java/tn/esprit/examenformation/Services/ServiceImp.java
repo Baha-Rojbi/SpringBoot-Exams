@@ -37,47 +37,38 @@ public class ServiceImp implements IServices{
 
     @Override
     public void ajouterEtAffecterFormationAFormateur(Formation formation, Integer idFormateur) {
-        Formateur formateur=formateurRepository.findById(idFormateur).orElse(null);
-        formation.setFormateur(formateur);
-        formationRepository.save(formation);
+Formateur formateur=formateurRepository.findById(idFormateur).orElse(null);
+formation.setFormateur(formateur);
+formationRepository.save(formation);
     }
 
     @Override
     public void affecterApprenantFormation(Integer idApprenant, Integer idFormation) {
-        Apprenant apprenant=apprenantRepository.findById(idApprenant).orElse(null);
-        Formation formation=formationRepository.findById(idFormation).orElse(null);
-        // Check for max participants
-        if (formation.getNbrMaxParticipant() != null && formation.getApprenants().size() >= formation.getNbrMaxParticipant()) {
-            throw new IllegalStateException("Maximum number of participants reached");
-        }
-        // Everything is okay; now we can add the apprenant to the formation
-        formation.getApprenants().add(apprenant);
-        formationRepository.save(formation); // Persist the changes in the database
+Apprenant apprenant=apprenantRepository.findById(idApprenant).orElse(null);
+Formation formation=formationRepository.findById(idFormation).orElse(null);
+if(formation.getApprenants().size()<formation.getNbrMaxParticipant()){
+ formation.getApprenants().add(apprenant);
+ formationRepository.save(formation);
+}
     }
 
     @Override
     public Integer calculateRemuneration(Integer idFormateur, Date dateDebut, Date dateFin) {
+        int nbreHeure= formationRepository.sumFormationHoursForFormateur(idFormateur,dateDebut,dateFin);
         Formateur formateur=formateurRepository.findById(idFormateur).orElse(null);
-        Integer totalHours = formationRepository.sumFormationHoursForFormateur(idFormateur, dateDebut, dateFin);
-
-        return formateur.getTarifHoraire()*totalHours;
+        return nbreHeure*formateur.getTarifHoraire();
     }
 
     @Override
     public Integer getRevenuByFormation(Integer idFormation) {
         Formation formation=formationRepository.findById(idFormation).orElse(null);
-        Integer frais= formation.getFrais();
-        Integer nbreApprenants= formation.getApprenants().size();
-        return frais*nbreApprenants;
+        return formation.getApprenants().size()*formation.getFrais();
     }
-
     @Scheduled(fixedRate = 30000)
-    @Transactional()
-    public void getNbrApprenantByFormation ()
-    {
-        List<Formation> formations= formationRepository.findAll();
-        for(Formation formation:formations ){
-            log.info("La formation : " + formation.getTitre()+" contient : "+formation.getApprenants().size()+" apprenants");
-        }
+    public void getNbrApprenantByFormation (){
+List<Formation> formations=formationRepository.findAll();
+for (Formation formation:formations){
+    log.info("La formation : "+formation.getTitre()+" contient : "+ formation.getApprenants().size()+" apprenants");
+}
     }
 }

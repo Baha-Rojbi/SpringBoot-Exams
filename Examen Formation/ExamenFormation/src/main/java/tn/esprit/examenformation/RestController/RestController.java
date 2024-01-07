@@ -27,7 +27,7 @@ public class RestController {
     {
         iServices.ajouterEtAffecterFormationAFormateur(formation,idFormateur);
     }
-    @PutMapping("/affecterApprenantFormation/{idApprenant}/{idFormation}")
+    @PostMapping("/affecterApprenantFormation/{idApprenant}/{idFormation}")
     public void affecterApprenantFormation (@PathVariable Integer idApprenant,@PathVariable Integer idFormation){
         iServices.affecterApprenantFormation(idApprenant,idFormation);
     }
