@@ -1,5 +1,6 @@
 package tn.esprit.bus.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,6 +20,7 @@ public class Trajet implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idTrajet;
     private String pointDepart;
+    @JsonIgnore
     @OneToMany(mappedBy ="trajet")
     private Set<Bus> buses;
 }

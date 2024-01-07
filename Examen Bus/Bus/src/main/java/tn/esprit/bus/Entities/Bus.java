@@ -1,5 +1,6 @@
 package tn.esprit.bus.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,5 +29,6 @@ public class Bus implements Serializable {
     @OneToOne(cascade = CascadeType.PERSIST)
     private Utilisateur chauffeur;
     @OneToMany(mappedBy ="busEtudiant")
+    @JsonIgnore
     private Set<Utilisateur> Etudiant;
 }

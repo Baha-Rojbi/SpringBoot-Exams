@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import tn.esprit.bus.Entities.Bus;
 
 public interface BusRepositories extends JpaRepository<Bus,Integer> {
-    Bus findByNumImmatriculation(String numImmatriculation);
+Bus findByNumImmatriculation(String numImma);
 }

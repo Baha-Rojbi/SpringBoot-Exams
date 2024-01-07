@@ -1,14 +1,15 @@
 package tn.esprit.bus.RestControllers;
 
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.bind.annotation.*;
 import tn.esprit.bus.Entities.Bus;
 import tn.esprit.bus.Entities.Trajet;
 import tn.esprit.bus.Entities.Utilisateur;
 import tn.esprit.bus.Services.IService;
+
+import java.util.Date;
+import java.util.List;
 
 @org.springframework.web.bind.annotation.RestController
 @AllArgsConstructor
@@ -31,7 +32,11 @@ public class RestController {
         return iService.affecterTrajetABus(idBus,idTrajet);
     }
     @PutMapping("/affecterEtudiantABus/{numImma}/{nom}/{prenom}")
-    String affecterEtudiantABus(@PathVariable String numImma,@PathVariable String nom,@PathVariable String prenom){
-        return iService.affecterEtudiantABus(numImma,nom,prenom);
+    String affecterEtudiantABus(@PathVariable String numImma,@PathVariable String nom,@PathVariable String prenom) {
+        return iService.affecterEtudiantABus(numImma, nom, prenom);
+    }
+    @GetMapping("/afficherEtudiantsAvecTrajet/{idTrajet}/{dateInf}/{dateSup}")
+    public List<Utilisateur> afficherEtudiantsAvecTrajet(@PathVariable int idTrajet,@DateTimeFormat(pattern = "yyyy-MM-dd")  @PathVariable Date dateInf,@DateTimeFormat(pattern = "yyyy-MM-dd") @PathVariable Date dateSup){
+        return iService.afficherEtudiantsAvecTrajet(idTrajet,dateInf,dateSup);
     }
 }
