@@ -2,10 +2,7 @@ package tn.esprit.examencoursclassroom.RestControllers;
 
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import tn.esprit.examencoursclassroom.Entities.Classe;
-import tn.esprit.examencoursclassroom.Entities.CoursClassroom;
-import tn.esprit.examencoursclassroom.Entities.Niveau;
-import tn.esprit.examencoursclassroom.Entities.Utilisateur;
+import tn.esprit.examencoursclassroom.Entities.*;
 import tn.esprit.examencoursclassroom.Services.IServices;
 
 @RestController
@@ -36,5 +33,9 @@ private IServices iServices;
     @PutMapping("/desaffecterCoursClassroomClasse/{idCours}")
     public void desaffecterCoursClassroomClasse(@PathVariable Integer idCours){
         iServices.desaffecterCoursClassroomClasse(idCours);
+    }
+    @GetMapping("/nbHeuresParSpecEtNiv/{sp}/{nv}")
+    public Integer nbHeuresParSpecEtNiv(@PathVariable Specialite sp,@PathVariable Niveau nv){
+    return iServices.nbHeuresParSpecEtNiv(sp,nv);
     }
 }

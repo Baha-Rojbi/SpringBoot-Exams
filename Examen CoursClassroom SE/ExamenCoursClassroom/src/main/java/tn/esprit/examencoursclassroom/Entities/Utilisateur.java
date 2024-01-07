@@ -19,7 +19,7 @@ public class Utilisateur implements Serializable {
     private Integer idUtilisateur;
     private String prenom;
     private String nom;
-    private String Password;
+    private String password;
     @ManyToOne
     private Classe classUser;
 }

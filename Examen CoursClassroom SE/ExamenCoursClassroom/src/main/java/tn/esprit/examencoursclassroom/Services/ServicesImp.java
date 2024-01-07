@@ -39,35 +39,37 @@ public class ServicesImp implements IServices{
 
     @Override
     public void affecterUtilisateurClasse(Integer idUtilisateur, Integer codeClasse) {
-        Utilisateur utilisateur=utilisateurRepository.findById(idUtilisateur).orElse(null);
-        Classe classe=classseRepository.findById(codeClasse).orElse(null);
-        utilisateur.setClassUser(classe);
-        utilisateurRepository.save(utilisateur);
+Utilisateur utilisateur=utilisateurRepository.findById(idUtilisateur).orElse(null);
+Classe classe=classseRepository.findById(codeClasse).orElse(null);
+utilisateur.setClassUser(classe);
+utilisateurRepository.save(utilisateur);
     }
 
     @Override
     public Integer nbUtilisateursParNiveau(Niveau nv) {
-        return utilisateurRepository.countByClassUser_Niveau(nv);
+return utilisateurRepository.countByClassUser_Niveau(nv);
+
     }
 
     @Override
     public void desaffecterCoursClassroomClasse(Integer idCours) {
-        CoursClassroom cc= coursClassroomRepository.findById(idCours).get();
-        cc.setClasse(null);
-        coursClassroomRepository.save(cc);
+CoursClassroom coursClassroom=coursClassroomRepository.findById(idCours).orElse(null);
+coursClassroom.setClasse(null);
+coursClassroomRepository.save(coursClassroom);
     }
 
     @Override
     public Integer nbHeuresParSpecEtNiv(Specialite sp, Niveau nv) {
-        return null;
+        return coursClassroomRepository.nbHeuresParSpecEtNiv(sp, nv);
     }
-
-    @Scheduled(fixedRate = 6000)
+    @Scheduled(fixedRate = 60000)
     public void archiverCoursClassrooms(){
-        List<CoursClassroom> ccs= coursClassroomRepository.findAll();
-        for (CoursClassroom coursClassroom : ccs) {
-            coursClassroom.setArchieve(true);
-            coursClassroomRepository.save(coursClassroom);
-        }
-    }
+List<CoursClassroom> coursClassrooms=coursClassroomRepository.findAll();
+for (CoursClassroom coursClassroom:coursClassrooms){
+    coursClassroom.setArchieve(true);
+    coursClassroomRepository.save(coursClassroom);
+    log.info("cours archive : "+coursClassroom.getNom());
+}}
+
+
 }

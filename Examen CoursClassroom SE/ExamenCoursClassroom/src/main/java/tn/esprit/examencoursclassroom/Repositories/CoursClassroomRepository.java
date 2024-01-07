@@ -8,6 +8,6 @@ import tn.esprit.examencoursclassroom.Entities.Niveau;
 import tn.esprit.examencoursclassroom.Entities.Specialite;
 
 public interface CoursClassroomRepository extends JpaRepository<CoursClassroom,Integer> {
-    @Query("SELECT SUM(cc.nbHeures) FROM CoursClassroom cc WHERE cc.specialite =:specialite AND cc.classe.niveau = :niveau")
-    Integer nbHeuresParSpecialiteEtdNiveau(@Param("specialite") Specialite specialite, @Param("niveau") Niveau niveau);
+    @Query("select SUM(cc.nbHeures) from CoursClassroom cc where cc.specialite=:sp and cc.classe.niveau=:nv")
+    public Integer nbHeuresParSpecEtNiv(@Param("sp") Specialite sp,@Param("nv") Niveau nv);
 }
