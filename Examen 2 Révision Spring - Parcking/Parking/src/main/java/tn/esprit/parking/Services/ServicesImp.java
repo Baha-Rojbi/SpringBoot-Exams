@@ -38,11 +38,14 @@ public class ServicesImp implements IServices{
 
     @Override
     public List<Personnel> listerPersonnel() {
-        return null;
+        return personnelRepositories.findAll();
     }
 
     @Override
     public void affecterPersonnelZone(int idzone, int idGarde, Poste poste) {
-
+        Zone zone=zoneRepositories.findById(idzone).orElse(null);
+        Personnel personnel=personnelRepositories.findById(idGarde).orElse(null);
+        personnel.setZone(zone);
+personnelRepositories.save(personnel);
     }
 }

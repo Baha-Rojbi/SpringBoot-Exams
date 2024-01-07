@@ -82,7 +82,6 @@ public class ServicesImp implements IServices{
                 montantContrat += ass.getMontant();
             }
         }
-
         return montantContrat;
     }
     @Scheduled(fixedRate = 60000)
