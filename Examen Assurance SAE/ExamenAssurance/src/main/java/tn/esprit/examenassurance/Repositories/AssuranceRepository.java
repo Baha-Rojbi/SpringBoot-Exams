@@ -19,4 +19,6 @@ public interface AssuranceRepository extends JpaRepository<Assurance,Integer> {
     @Query("SELECT DISTINCT a.beneficiaire FROM Assurance a WHERE a.contrat.type = :typeContrat")
     Set<Beneficiaire> findBeneficiairesByContratType(@Param("typeContrat") TypeContrat typeContrat);
 
+
+
 }

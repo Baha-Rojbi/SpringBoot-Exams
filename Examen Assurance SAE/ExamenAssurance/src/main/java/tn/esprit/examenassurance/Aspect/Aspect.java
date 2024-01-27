@@ -9,9 +9,9 @@ import org.springframework.stereotype.Component;
 @org.aspectj.lang.annotation.Aspect
 @Component
 public class Aspect {
-    @After("execution(* tn.esprit.examenassurance.Services.*.get*(..))")
+    @After("execution(* tn.esprit.examenassurance.Services.*.*(..))")
     public void logMethodEntry(JoinPoint joinPoint){
         String name=joinPoint.getSignature().getName();
-        log.info("Bon courage ! "+name+":");
+        log.info(name);
     }
 }

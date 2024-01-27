@@ -82,7 +82,7 @@ rendezVousRepository.save(rdv);
         Medecin medecin=medecinRepository.findById(idMedecin).orElse(null);
         return nbrRdv*medecin.getPrixConsultation();
     }
-    @Scheduled(fixedRate = 30000)
+@Scheduled(fixedRate = 15000)
     public void retrieveRendezVous(){
         List<RendezVous> RDVs = rendezVousRepository.findAll();
         for (RendezVous r:RDVs){

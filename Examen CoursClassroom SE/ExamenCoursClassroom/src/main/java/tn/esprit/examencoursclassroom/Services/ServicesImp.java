@@ -47,7 +47,8 @@ utilisateurRepository.save(utilisateur);
 
     @Override
     public Integer nbUtilisateursParNiveau(Niveau nv) {
-return utilisateurRepository.countByClassUser_Niveau(nv);
+
+return utilisateurRepository.findByClassUser_Niveau(nv).size();
 
     }
 
